@@ -15,6 +15,7 @@
 ## DB Structure
 
 | Name  | Variable  | details  |
+| ----- | ----- | ----- |
 | Parent Nucl.  | mother  | XXXYY, (ex. 137CS)  |
 | Parent Mass  | mmass  | XXX (ex. 137)  |
 | Parent Isotope  | misotope  | YY (ex. CS)  |

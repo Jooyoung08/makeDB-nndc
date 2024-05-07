@@ -52,6 +52,28 @@
 
 자세한 사항은 코드 참조.
 
+1. Conda 설치
+
+2. Conda Env
+
+```bash
+conda create -n nndc python=3.12.3
+```
+
+3. Conda 실행
+
+```bash
+conda activate nndc
+```
+
+3. SQLite 설치
+
+```bash
+conda install -c conda-forge sqlite
+```
+
+4. Code 실행
+
 ```python
 python3 makedb.py
 ```

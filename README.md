@@ -111,12 +111,33 @@ conda install -c conda-forge numpy
 python3 makedb.py
 ```
 
-### Preliminary
+## DB 사용법
 
-ROOT 파일로 만드는 코드를 제작 중 입니다.
+1. SQLITE DB Browser 다운로드 및 설치 [링크](https://sqlitebrowser.org/)
+   
+2. DB Browser를 실행하고, 해당 DB 파일 연결
+
+3. 해당 DB를 연결한 상태
+![dbbrowser1](https://github.com/Jooyoung08/makeDB-nndc/blob/bc1d8b963b19973e04215de9b46237b2ad63e5d0/sqlite-01.png)
+
+4. SQL 실행으로 이동 후, 쿼리문 작성
+
+예제) select * from decay where gamma > 1000 and gamma < 2000
+
+작성 후 실행 클릭 (Ctrl+retur, F5, Ctrl+R)
+
+![dbbrowser2](https://github.com/Jooyoung08/makeDB-nndc/blob/bc1d8b963b19973e04215de9b46237b2ad63e5d0/sqlite-02.png)
+
+
+---
+
+## Preliminary
+
+ROOT 파일로 만들기 위해서 기존의 코드를 조금 수정하였습니다.
 다만 만들어진 ROOT 파일의 크기가 수 기가바이트(GB)를 넘어가기 때문에 사용에 주의가 필요합니다.
+(DB파일의 경우 수 메가바이트(MB))
 
-#### Install ROOT
+### (ROOT) Code Usage
 
 같은 환경에 ROOT를 설치합니다.
 
@@ -130,4 +151,8 @@ conda install -c conda-forge root
 python3 root_makedb.py
 ```
 
+ROOT 파일 실행
 
+```sh
+root root-nndc-20241101.root
+```

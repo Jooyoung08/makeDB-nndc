@@ -8,8 +8,8 @@ from func.daughter import *
 from func.preprocess import *
 
 #DB Creation
-con = sqlite3.connect('./test.db')
-# con = sqlite3.connect('./nndc-20241101.db')
+# con = sqlite3.connect('./test.db')
+con = sqlite3.connect('./nndc-20241101.db')
 cur = con.cursor()
 
 #DB Table Creation

@@ -9,6 +9,7 @@ ENSDF 파일에 대한 자세한 설명은 아래 링크를 참조하세요.
 - Python 3.12.3
 - sqlite3 3.45.3
 - NumPy 2.1.3
+- (Optional) ROOT 
 - NNDC ESNDF file 2024/05/01
 - NNDC ESNDF file 2024/11/01
 
@@ -109,3 +110,24 @@ conda install -c conda-forge numpy
 ```python
 python3 makedb.py
 ```
+
+### Preliminary
+
+ROOT 파일로 만드는 코드를 제작 중 입니다.
+다만 만들어진 ROOT 파일의 크기가 수 기가바이트(GB)를 넘어가기 때문에 사용에 주의가 필요합니다.
+
+#### Install ROOT
+
+같은 환경에 ROOT를 설치합니다.
+
+```bash
+conda install -c conda-forge root
+```
+
+그 후에 root_makedb.py 파일을 실행합니다.
+
+```python
+python3 root_makedb.py
+```
+
+

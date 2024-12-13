@@ -3,7 +3,7 @@ import copy
 def finder(testblock):
     nline = 0
     nParent = 0
-    nLevel, nGamma, nBeta, nEC, nAlpha, nDelayed = [],[],[],[],[],[]
+    nLevel, nGamma, nBeta, nBetaA, nEC, nAlpha, nDelayed = [],[],[],[],[],[],[]
     for i in testblock:
         if i[9:].strip() == '':
             nline += 1
@@ -23,6 +23,8 @@ def finder(testblock):
             nGamma.append(nline)
         elif id_05 == '' and id_06 == '' and id_07 == 'B' and id_08 == '':
             nBeta.append(nline)
+        elif id_05 == 'S' and id_06 == '' and id_07 == 'B' and id_08 == '':
+            nBetaA.append(nline)
         elif id_05 == '' and id_06 == '' and id_07 == 'E' and id_08 == '':
             nEC.append(nline)
         elif id_05 == '' and id_06 == '' and id_07 == 'A' and id_08 == '':
@@ -33,7 +35,7 @@ def finder(testblock):
             nline += 1
             continue
         nline += 1
-    return nParent, nLevel, nGamma, nBeta, nEC, nAlpha, nDelayed
+    return nParent, nLevel, nGamma, nBeta, nBetaA, nEC, nAlpha, nDelayed
 
 def singleblock(testblock):
     ### deepcopy를 사용하지 않았을 때, 정보의 손실 발생

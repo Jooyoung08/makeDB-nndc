@@ -22,14 +22,21 @@ def id_EC(testblock, testnum):
     ec_tint = ecblock[64:74].strip()
     return ec, ec_bint, ec_int, ec_tint
 
-def id_beta(testblock, testnum):
+def id_beta(testblock, testnum, lastnum):
     bblock = copy.deepcopy(testblock[testnum])
     beta_end = bblock[9:19].strip()
     beta_int = bblock[21:29].strip()
-    # beta_eva = bblock[29:39].strip()
-    # rb_eva.append(beta_eva)
-
-    return beta_end, beta_int
+    if testnum == lastnum-1:
+        beta_ave = 0
+    else:
+        nbblock = copy.deepcopy(testblock[testnum+1])
+        beta_check = nbblock[9:19].strip().split('=')
+        if 'EAV' in beta_check:
+            beta_check2 = beta_check[1].split(' ')
+            beta_ave = beta_check2[0]
+        else:
+            beta_ave = 0
+    return beta_end, beta_int, beta_ave
 
 def id_alpha(testblock, testnum):
     ablock = copy.deepcopy(testblock[testnum])

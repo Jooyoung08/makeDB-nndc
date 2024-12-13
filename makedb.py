@@ -18,14 +18,14 @@ cur.execute('''create table decay(
     mother text, mmass real, misotope text, mlevel text, mspin text,
     mdecay text, mlife real, mlifeu text, mqval real,
     gamma real, gint real,
-    betaend real, bint real,
+    betaend real, bint real, bave real,
     ec real, ecbint real, ecint real, ectint real,
     alpha real, aint real,
     delay real, dptl text, dint real, dwidth real);''')
 
 #Read ENSDF
 # Number of ENSDF = 300
-# for filenum in range(7, 8):
+# for filenum in range(1, 24):
 # for filenum in range(1, 2):
 for filenum in range(1, 300):
     #filenum을 XXX로 표시
@@ -76,7 +76,7 @@ for filenum in range(1, 300):
         #print("sBLOCK Length:",lsblock)
         # print("DECAY Block Number:",i)
         ### nParent: int, Others: string
-        nParent, nLevel, nGamma, nBeta, nEC, nAlpha, nDelayed = finder(sblock)
+        nParent, nLevel, nGamma, nBeta, nBetaA, nEC, nAlpha, nDelayed = finder(sblock)
         # print("Numbers:",nParent, nLevel, nGamma, nBeta, nEC, nAlpha, nDelayed)
         
         ### SKIP NONE Parent
@@ -105,8 +105,8 @@ for filenum in range(1, 300):
         # val_level={'level':0, 'lspin':'', 'llife':0, 'llifeu':''}
 
         ### SKIP NONE Level
-        if len(nLevel) == 0:
-            continue
+        # if len(nLevel) == 0:
+        #     continue
         ### Level Information
         # level, lspin, llife, llifeu = id_level(sblock, nLevel)
         # print("Level Information:",level, lspin, llife)
@@ -121,13 +121,13 @@ for filenum in range(1, 300):
                 # print("Alpha Information:",alpha, aint)
 
         ### Beta Information
-        val_beta  = {'betaend':0, 'bint':0}
+        val_beta  = {'betaend':0, 'bint':0, 'bave':0}
         if len(nBeta) != 0:
             for i in nBeta:
-                betaend, bint = id_beta(sblock, i)
-                val_beta.update({'betaend':betaend,'bint':bint})
-                cur.execute('''INSERT INTO decay(daughter, dmass, disotope, mother, mmass, misotope, mlevel, mspin, mdecay, mlife, mlifeu, mqval, betaend, bint) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',(val_daughter['daughter'],val_daughter['dmass'],val_daughter['disotope'],val_parent['mother'],val_parent['mmass'],val_parent['misotope'],val_parent['mlevel'],val_parent['mspin'],val_parent['mdecay'],val_parent['mlife'],val_parent['mlifeu'],val_parent['mqval'],val_beta['betaend'],val_beta['bint']))
-                # print("Beta Information:",betaend, bint)
+                betaend, bint, bave = id_beta(sblock, i, lsblock)
+                # print("Beta ",betaend, bint, bave)
+                val_beta.update({'betaend':betaend,'bint':bint, 'bave':bave})
+                cur.execute('''INSERT INTO decay(daughter, dmass, disotope, mother, mmass, misotope, mlevel, mspin, mdecay, mlife, mlifeu, mqval, betaend, bint, bave) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)''',(val_daughter['daughter'],val_daughter['dmass'],val_daughter['disotope'],val_parent['mother'],val_parent['mmass'],val_parent['misotope'],val_parent['mlevel'],val_parent['mspin'],val_parent['mdecay'],val_parent['mlife'],val_parent['mlifeu'],val_parent['mqval'],val_beta['betaend'],val_beta['bint'],val_beta['bave']))
 
         ### EC Information
         val_ec    = {'ec':0, 'ecbint':0, 'ecint':0, 'ectint':0}

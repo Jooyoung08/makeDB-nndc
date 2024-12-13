@@ -10,12 +10,26 @@ ENSDF 파일에 대한 자세한 설명은 아래 링크를 참조하세요.
 - sqlite3 3.45.3
 - NumPy 2.1.3
 - (Optional) ROOT 
-- NNDC ESNDF file 2024/05/01
 - NNDC ESNDF file 2024/11/01
 
-## DB Usage
+## Status
 
-- DB Browser for SQLite (https://sqlitebrowser.org/) 를 이용하여 데이터베이스를 확인할 수 있습니다.
+- ENSDF 에서 DECAY 정보 중 다음과 같은 정보를 추출함.
+
+1. Parent Nucl.
+	1.1 Mass, Isotope, Decay Mode, Half-life, Spin, Q-value
+2. Daughter Nucl.
+	2.1 Mass, Isotope
+3. Gamma
+	3.1 Energy, Intensity
+4. Beta(-)
+	4.1 End-point Energy, Intensity
+5. EC
+	5.1 Energy, Beta(+) intensity, EC intensity, Total intensity
+6. Alpha
+	6.1 Energy, Intensity
+7. Delayed
+	7.1 Energy, Particle, Intensity, Width
 
 ## DB Structure
 
@@ -25,43 +39,29 @@ ENSDF 파일에 대한 자세한 설명은 아래 링크를 참조하세요.
 | Parent Mass  | mmass  | XXX (ex. 137)  |
 | Parent Isotope  | misotope  | YY (ex. CS)  |
 | Parent Decay Mode  | decay  | A: alpha, B-: Beta(-) etc  |
-| Parent Half-life  | life  | Half Life  |
-| Parent Half-life D  | lifeu  | Y: year, D: day, S: second etc...  |
-| Parent Spin  | spin  | J, spin and parity  |
-| Parent Q-value  | qval  | g.s. Q-value in keV, total energy available for g.s. -> g.s. transition |
+| Parent Half-life  | mlife  | Half Life  |
+| Parent Half-life D  | mlifeu  | Y: year, D: day, S: second etc...  |
+| Parent Spin  | mspin  | J, spin and parity  |
+| Parent Q-value  | mqval  | g.s. Q-value in keV, total energy available for g.s. -> g.s. transition |
 | Daughter Nucl.  | daughter  | XXXYY  |
 | Daughter mass  | dmass  | XXX  |
 | Daughter Isotope  | disotope  | YY  |
-| Level | level | Energy level of the daughter nuclide (keV) |
-| Level Spin  | l_spin  | Spin |
 | Gamma Energy  | gamma  | Gamma Energy (keV)  |
-| Gamma Intensity  | g_rint  | Relative Photon Intensity (%)  |
-| Gamma Multipolarity  | g_mtrans  | Multipolarity of transition |
-| Gamma Mixing Ratio  | g_mratio  | Mixing Ratio  |
-| Gamma Conversion Coefficient | g_tconv | Total Conversion Coefficient  |
-| Gamma Relative Total Transition Intensity | g_rttint | Relative Total Transition Intensity (%)  |
-| Gamma Others | gDTYPE | Other gamma data (KC : Theoretical K- conversion coefficient etc) |
-| Gamma Others | gDTYPEv | Value of other gamma data |
-| Beta End-point Energy | beta_end  | Beta End-point Energy (keV)  |
-| Beta Ave. Energy  | beta_ave | Beta Ave. Energy (keV)  |
-| Beta Intensity  | b_int  | Intensity of beta(-) branch (%)  |
-| Beta Logft | b_logft | The log ft for the beta(-) transition |
+| Gamma Intensity  | gint  | Relative Photon Intensity (%)  |
+| Beta End-point Energy | betaend  | Beta End-point Energy (keV)  |
+| Beta Intensity  | bint  | Intensity of beta(-) branch (%)  |
 | EC Energy  | ec | EC Energy (keV), Given only  |
-| EC Intensity  | ec_int  | Intensity of Electron Capture branch (%)  |
-| EC beta(+) Intensity  | ec_bint  | Intensity of beta(+) branch (%)  |
-| EC Total Intensity  | ec_tint  | Total ($\epsilon$ + beta+) decay Intensity (%) |
-| EC Logft | ec_logft | The log ft for ($\epsilon$ + beta+) transition |
-| EC Others | ecDTYPE | Other EC data |
-| EC Others | ecDTYPEv | Value of other ec data |
+| EC Intensity  | ecint  | Intensity of Electron Capture branch (%)  |
+| EC beta(+) Intensity  | ecbint  | Intensity of beta(+) branch (%)  |
+| EC Total Intensity  | ectint  | Total ($\epsilon$ + beta+) decay Intensity (%) |
 | Alpha Energy  | alpha  | Alpha Energy (keV)  |
-| Alpha Intensity  | a_int  | Intensity of Alpha-decay brach in percent of the total Alpha-decay (%)  |
-| Alpha Hindrance Factor | a_hf | Hindrance Factor for Alpha-decay |
-| Delayed Energy | delayed | The energy of the Delayed particle (keV) |
-| Delayed Particle | d_particle | The symbor for the Delayed particle (A=alpha, N=neutron, P=proton) |
-| Delayed Intensity | d_int | Intensity of the Delayed particles in percent of the total Delayed particle emission (%) |
-| Delayed Energy Level | d_elevel | Energy of the level in the 'intermediate' (mass=A+1 for n, p; A+4 for Alpha) nuclide in case of Delayed particle |
-| Delayed Width | d_width | Width of the transition (keV) |
-| Delayed Angular Momentum | d_ang | Angular Momentum transfer of the emitted particle |
+| Alpha Intensity  | aint  | Intensity of Alpha-decay brach in percent of the total Alpha-decay (%)  |
+| Delayed Energy | delay | The energy of the Delayed particle (keV) |
+| Delayed Particle | dptl | The symbor for the Delayed particle (A=alpha, N=neutron, P=proton) |
+| Delayed Intensity | dint | Intensity of the Delayed particles in percent of the total Delayed particle emission (%) |
+| Delayed Width | dwidth | Width of the transition (keV) |
+
+- 일부 Symbol을 INFO.md에 정리 하는 중 
 
 ## ISSUE
 
@@ -69,7 +69,8 @@ ENSDF 파일에 대한 자세한 설명은 아래 링크를 참조하세요.
 
 ## Code Usage
 
-자세한 사항은 코드 참조.
+코드를 커스텀 할 필요가 없다면, 다운로드 받은 DB 파일을 바로 사용.
+DB 사용법 확인.
 
 1. Conda 설치
 
@@ -112,6 +113,8 @@ python3 makedb.py
 ```
 
 ## DB 사용법
+
+- DB Browser for SQLite를 이용하여 데이터베이스를 확인할 수 있습니다.
 
 1. SQLITE DB Browser 다운로드 및 설치 [링크](https://sqlitebrowser.org/)
    

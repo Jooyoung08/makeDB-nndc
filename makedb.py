@@ -77,7 +77,7 @@ for filenum in range(1, 300):
         # print("DECAY Block Number:",i)
         ### nParent: int, Others: string
         nParent, nLevel, nGamma, nBeta, nBetaA, nEC, nAlpha, nDelayed = finder(sblock)
-        # print("Numbers:",nParent, nLevel, nGamma, nBeta, nEC, nAlpha, nDelayed)
+        # print("Numbers:",nParent, nLevel, nGamma, nBeta, nBetaA, nEC, nAlpha, nDelayed)
         
         ### SKIP NONE Parent
         if nParent == 0:
